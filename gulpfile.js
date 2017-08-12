@@ -91,3 +91,11 @@ gulp.task('js-concat-compress', (cb)=>{
   }))
   .pipe(gulp.dest('dist/js/')); 
 });
+
+// 图片无损压缩
+gulp.task('img-handl',()=>{
+  const imagemin = require('gulp-imagemin');
+  return gulp.src(files.imgFiles)
+    .pipe(imagemin())  //imagemin()里是可以写参数的，有需要的可以去github的页面看看
+    .pipe(gulp.dest('./dist/img/'))
+});
