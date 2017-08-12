@@ -75,3 +75,19 @@ gulp.task('minify-css', function () {
     .pipe(rename(path=>path.basename += '.min')) //重命名文件输出后的样式为 原文件名.min.css
     .pipe(gulp.dest('./dist/css/'))
 });
+
+// js文件--合并--压缩(生产环境)
+gulp.task('js-concat-compress', (cb)=>{
+  let name = ''; //先定义一个变量将用于后面存文件名
+  const concat = require('gulp-concat');
+  const uglify = require('gulp-uglify');
+  const rename = require("gulp-rename");
+  return gulp.src(dirs.js+'/**/*.js')
+  .pipe(rename(path=>{path.basename += '';name=path.basename;}))
+  .pipe(concat('bundle.js'))   //合并js文件
+  .pipe(uglify())         //压缩js文件
+  .pipe(rename(path=>{
+    path.basename = name+'.'+path.basename+'.min';  //改文件名加上 .min
+  }))
+  .pipe(gulp.dest('dist/js/')); 
+});
