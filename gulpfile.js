@@ -53,3 +53,15 @@ const reload = browserSync.reload;
   gulp.watch(dirs.js+'/**/*.js').on('change', reload); //监视所有js文件有改动就刷新浏览器
 });
 //在cmd运行cnpm run gulp server
+
+//添加浏览器私有前缀（生产环境）
+gulp.task('autoprefixer', () => {
+  const postcss = require('gulp-postcss');
+  const sourcemaps = require('gulp-sourcemaps');
+  const autoprefixer = require('autoprefixer');
+  return gulp.src(files.cssFiles)
+    .pipe(sourcemaps.init()) //添加sourcemap,方便调试
+    .pipe(postcss([ autoprefixer() ])) //添加浏览器私有前缀，解决浏览器的兼容问题
+    .pipe(sourcemaps.write('.'))
+    .pipe(gulp.dest(dirs.css+'/'))
+});
