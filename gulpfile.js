@@ -107,3 +107,20 @@ gulp.task('zip',()=>{
   .pipe(zip('project.zip'))   //打包后的文件名，自己随意取
   .pipe(gulp.dest('./'))
 });
+
+
+
+// ------------------开发阶段命令----------------------------------------------------
+gulp.task('start', ['create-directory']); //项目初始化的第一个命令
+gulp.task('dev-watch', ['server']); //开始编写项目后开启服务器实时更新
+
+// ------------------生产阶段命令------------------------------------------------------
+gulp.task('prefixer', ['autoprefixer']); //给css文件添加浏览器私有前缀 files.cssFiles ==>> .src/css/
+gulp.task('min-css', ['minify-css']); //压缩css文件 files.cssFiles ==>> dist/css/
+gulp.task('js-handl', ['js-concat-compress']); //合js文件  dirs.js/**/*.js ==>> ./dist/js/concated.js
+gulp.task('img-handl', ['img-handl']) //处理图片，对图片进行无损的压缩
+
+//----------------一键生成项目文件命令-----------------------------------------------
+       //因为gulp执行任务时是以最大的任务并发数同时进行的，所以有时候我们需要按步骤进行，就需要插件`gulp-sequence`，将任务按顺序写入，就会按顺序执行
+const runSequence = require('gulp-sequence').use(gulp);
+gulp.task('bunld-project',runSequence('clean-dist','compile-less','autoprefixer','minify-css','js-concat-compress','img-handl','zip'))
