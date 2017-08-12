@@ -65,3 +65,13 @@ gulp.task('autoprefixer', () => {
     .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest(dirs.css+'/'))
 });
+
+// 压缩css(生产环境)
+gulp.task('minify-css', function () {
+  const minifyCSS = require('gulp-minify-css');
+  const rename = require("gulp-rename");
+  return gulp.src(dirs.css+'/**/*.css')
+    .pipe(minifyCSS({/*keepBreaks: true*/}))
+    .pipe(rename(path=>path.basename += '.min')) //重命名文件输出后的样式为 原文件名.min.css
+    .pipe(gulp.dest('./dist/css/'))
+});
