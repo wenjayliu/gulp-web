@@ -99,3 +99,11 @@ gulp.task('img-handl',()=>{
     .pipe(imagemin())  //imagemin()里是可以写参数的，有需要的可以去github的页面看看
     .pipe(gulp.dest('./dist/img/'))
 });
+
+// 项目打包(生产环境)
+gulp.task('zip',()=>{
+  const zip = require('gulp-zip');
+  return gulp.src(['./*.html','**/dist/**/*.*','!**/node_modules/**/*.*']) //这里需要注意的是，在写要打包的文件时，避免打包的文件不能写在开头，这里'!**/node_modules/**/*.*'放在了最后
+  .pipe(zip('project.zip'))   //打包后的文件名，自己随意取
+  .pipe(gulp.dest('./'))
+});
